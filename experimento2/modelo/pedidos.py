@@ -28,7 +28,6 @@ class Pedido(ABC):
             for p in productos:
                 self._productos.append(p)
 
-    # --- Solo @property (no cambian después de crear el pedido) ---
     @property
     def numero(self):
         return self._numero
@@ -49,7 +48,6 @@ class Pedido(ABC):
     def pago(self):
         return self._pago
 
-    # --- @property y setter (pueden cambiar y requieren validación) ---
     @property
     def dia(self):
         return self._dia
@@ -84,7 +82,6 @@ class Pedido(ABC):
 
         self._estado = nuevo_estado
 
-    # --- Métodos del pedido ---
     def agregar_producto(self, producto, cantidad=1):
         if self._estado != "REGISTRADO":
             raise ValueError("Solo se pueden agregar productos cuando el pedido está REGISTRADO.")
@@ -113,7 +110,6 @@ class Pedido(ABC):
         self._productos.remove(producto)
 
     def calcular_descuento_promocion(self):
-        # Variante B: Martes 2x1 en vasos de refresco natural
         return self._promocion.aplicar_descuento(self._productos, self._dia)
 
     def calcular_subtotal(self):
@@ -189,7 +185,6 @@ class PedidoLocal(Pedido):
 class PedidoParaLlevar(Pedido):
     TIPO = "para llevar"
 
-    # Variante B: costo_envase por defecto es Bs 2.50 por plato
     def __init__(self, numero, cliente, costo_envase=2.50, productos=None, estado="REGISTRADO", fecha="", dia=""):
         super().__init__(numero, cliente, productos, estado, fecha, dia)
         self._costo_envase = 0.0
@@ -222,7 +217,6 @@ class PedidoDelivery(Pedido):
     TARIFAS = {"cercado": 8.0, "quillacollo": 15.0, "sacaba": 15.0, "vinto": 20.0}
     ENVIO_GRATIS_DESDE = 120.0
 
-    # Variante B: envío gratis desde Bs 120 en todas las zonas, mínimo Bs 50
     def __init__(
         self,
         numero,

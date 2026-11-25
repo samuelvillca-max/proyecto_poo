@@ -66,11 +66,9 @@ class Producto(ABC):
             raise ValueError(f"'{self.nombre}' no está disponible el día {dia}.")
 
     def aplica_2x1_martes(self):
-        # Por defecto ningún producto entra en la promoción; Bebida lo sobrescribe
         return False
 
     def contiene(self, producto):
-        # Un producto simple solo se contiene a sí mismo; Combo lo sobrescribe
         return self is producto
 
     def __str__(self):
@@ -130,7 +128,7 @@ class Bebida(Producto):
         return self._vaso
 
     def calcular_precio(self):
-        # precio_base es el precio por vaso; la jarra cuesta 3 veces el vaso
+
         factor = 3 if self._jarra else 1
         return round(self.precio_base * factor, 2)
 
@@ -145,7 +143,7 @@ class Bebida(Producto):
         return 0
 
     def aplica_2x1_martes(self):
-        # Variante B: solo vasos de refresco natural
+
         return self._natural and self._vaso
 
     def __str__(self):
@@ -155,7 +153,7 @@ class Bebida(Producto):
 
 
 class Combo(Producto):
-    DESCUENTO = 12  # Variante B: 12 %
+    DESCUENTO = 12  
 
     def __init__(self, nombre, productos, disponible=True):
         if len(productos) < 2:
@@ -176,7 +174,7 @@ class Combo(Producto):
 
     @property
     def precio_base(self):
-        # La suma de los productos se recalcula siempre
+
         return round(sum(p.calcular_precio() for p in self._productos), 2)
 
     @property

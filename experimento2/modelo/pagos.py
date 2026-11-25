@@ -17,7 +17,6 @@ class MetodoPago(ABC):
         self._monto = round(valor, 2)
 
     def permitido_en_delivery(self):
-        # Efectivo y QR se aceptan en delivery; Tarjeta lo sobrescribe
         return True
 
     @abstractmethod
@@ -28,8 +27,7 @@ class MetodoPago(ABC):
 class Efectivo(MetodoPago):
     def __init__(self, monto, recibo):
         super().__init__(monto)
-        self._recibo = round(recibo, 2)  # dinero que entrega el cliente
-
+        self._recibo = round(recibo, 2)  
     @property
     def recibo(self):
         return self._recibo
@@ -65,7 +63,7 @@ class Qr(MetodoPago):
 
 
 class Tarjeta(MetodoPago):
-    COMISION = 3  # 3 % a cargo del cliente
+    COMISION = 3 
 
     def __init__(self, monto, numero_tarjeta):
         super().__init__(monto)
